@@ -18,7 +18,7 @@ pip install claude-code-mate
 
 ```bash
 $ ccm -h
-usage: cccm [-h] {start,stop,restart,status,logs} ...
+usage: ccm [-h] {start,stop,restart,status,logs} ...
 
 A companion tool for Claude Code, enabling flexible LLM integration through LiteLLM proxy.
 

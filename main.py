@@ -463,7 +463,7 @@ model_list:
 def main():
     """Main CLI interface for LiteLLM proxy management"""
     parser = argparse.ArgumentParser(
-        prog="cccm",
+        prog="ccm",
         description="A companion tool for Claude Code, enabling flexible LLM integration through LiteLLM proxy.",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
