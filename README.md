@@ -4,6 +4,7 @@ A companion tool for Claude Code, enabling flexible LLM integration through Lite
 
 The code (as well as the README) of Claude Code Mate is mainly vibe coded by Claude Code, with some adjustments and enhancements made by the author. 🤖✨
 
+
 ## Installation
 
 ```bash
@@ -13,6 +14,7 @@ uv pip install claude-code-mate
 # Or with pip
 pip install claude-code-mate
 ```
+
 
 ## Usage
 
@@ -40,20 +42,22 @@ Examples:
   ccm restart
   ccm status
   ccm logs
-  ccm logs --follow --lines 100
+  ccm logs -f -n 100
 
 This tool manages a LiteLLM proxy running with: litellm --config ~/.claude-code-mate/config.yaml
 ```
+
 
 ## Quick Start
 
 Start the LiteLLM proxy:
 
 ```bash
+export OPENROUTER_API_KEY=your-api-key
 ccm start
 ```
 
-Set up the environment variables according to the given instructions:
+Set up the environment variables according to the output instructions:
 
 ```bash
 export ANTHROPIC_BASE_URL=http://0.0.0.0:4000
@@ -65,6 +69,7 @@ Then run Claude Code with your desired model:
 ```bash
 claude --model claude-3.5-haiku
 ```
+
 
 ## Configuration
 
@@ -88,12 +93,14 @@ Edit the config as needed, then restart the proxy to apply changes:
 ccm restart
 ```
 
-You need to update the environment variables if `master_key` is changed.
+Note that you need to update the environment variables if `master_key` is changed.
+
 
 ## Resources
 
 - [LiteLLM Documentation](https://docs.litellm.ai/docs/tutorials/claude_responses_api)
 - [Claude Code Documentation](https://docs.anthropic.com/en/docs/claude-code/llm-gateway)
+
 
 ## License
 
