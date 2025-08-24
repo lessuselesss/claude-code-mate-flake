@@ -1,4 +1,4 @@
-# Claude Code Mate (CCM)
+# Claude Code Mate
 
 A companion tool for Claude Code, enabling flexible LLM integration through LiteLLM proxy.
 
