@@ -53,7 +53,7 @@ Start the LiteLLM proxy:
 ccm start
 ```
 
-Set up your environment variables as shown above:
+Set up the environment variables according to the given instructions:
 
 ```bash
 export ANTHROPIC_BASE_URL=http://0.0.0.0:4000
@@ -68,9 +68,7 @@ claude --model claude-3.5-haiku
 
 ## Configuration
 
-Configure models by editing the config file `~/.claude-code-mate/config.yaml`.
-
-Example:
+Default config (at `~/.claude-code-mate/config.yaml`):
 
 ```yaml
 litellm_settings:
@@ -84,7 +82,19 @@ model_list:
       api_base: https://openrouter.ai/api/v1
 ```
 
+Edit the config as needed, then restart the proxy to apply changes:
+
+```bash
+ccm restart
+```
+
+You need to update the environment variables if `master_key` is changed.
+
 ## Resources
 
 - [LiteLLM Documentation](https://docs.litellm.ai/docs/tutorials/claude_responses_api)
 - [Claude Code Documentation](https://docs.anthropic.com/en/docs/claude-code/llm-gateway)
+
+## License
+
+[MIT](http://opensource.org/licenses/MIT)
