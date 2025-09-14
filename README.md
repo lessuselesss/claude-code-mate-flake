@@ -4,6 +4,8 @@ A companion tool for Claude Code, enabling flexible LLM integration through Lite
 
 The code (as well as the README) of Claude Code Mate is mainly vibe coded by Claude Code, with some adjustments and enhancements made by the author. 🤖✨
 
+中文博客：[轻松解锁Claude Code：国内用户的多元模型新玩法](https://russellluo.com/2025/08/easily-unlock-claude-code)。
+
 
 ## Installation
 
