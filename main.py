@@ -7,14 +7,19 @@ import argparse
 import os
 from pathlib import Path
 import platform
-import psutil
 import signal
 import time
 import shlex
 import subprocess
 import sys
-from typing import Optional, Dict, Any, Union
+from typing import Optional, Dict, Any
+
+from jinja2 import Template
+import psutil
+import webbrowser
 import yaml
+
+from postgres import Postgres
 
 # Constants
 WORK_DIR = Path.home() / ".claude-code-mate"
@@ -265,13 +270,15 @@ class BackgroundService:
             print("❌ Service failed to start")
             return False
 
-    def stop(self) -> bool:
+    def stop(self, cleanup_db: bool = True) -> bool:
         """Stop the background service"""
         if not self.process_manager.is_running():
             print("Service is not running")
             return False
         try:
             self.process_manager.stop_service()
+            if cleanup_db:
+                Postgres.cleanup()
             print("✅ Service stopped successfully")
             return True
         except Exception as e:
@@ -281,7 +288,7 @@ class BackgroundService:
     def restart(self) -> bool:
         """Restart the service with the configured command"""
         print("Stopping service...")
-        self.stop()
+        self.stop(cleanup_db=False)
 
         # Wait a moment for cleanup
         time.sleep(1)
@@ -370,25 +377,32 @@ class BackgroundService:
 class ConfigManager:
     """Manages configuration file creation, editing, and initialization"""
 
-    def __init__(self, path: str = ""):
-        self.config_path = path or CONFIG_PATH
-        self.default_config = """# LiteLLM Proxy Configuration
+    def __init__(self, path: str = CONFIG_PATH, database_url: str = ""):
+        self.config_path = path
+        self.default_config = Template("""\
+# LiteLLM Proxy Configuration
 
-litellm_settings:
+general_settings:
   master_key: sk-1234567890 # Generate a secure key
+  {%- if database_url %}
+  database_url: {{ database_url }}
+  store_model_in_db: true
+  {%- endif %}
 
-model_list:
-  # OpenRouter Example
-  #
-  # For details, see:
-  # - https://docs.litellm.ai/docs/tutorials/claude_responses_api
-  # - https://docs.litellm.ai/docs/providers
-  - model_name: claude-3.5-haiku
-    litellm_params:
-      model: openrouter/anthropic/claude-3.5-haiku
-      api_key: os.environ/OPENROUTER_API_KEY
-      api_base: https://openrouter.ai/api/v1
-"""
+# Uncomment the following section to configure models if you like config-based
+# model management, or go to the Admin UI for database-based model management.
+#model_list:
+#  # OpenRouter Example
+#  #
+#  # For details, see:
+#  # - https://docs.litellm.ai/docs/tutorials/claude_responses_api
+#  # - https://docs.litellm.ai/docs/providers
+#  - model_name: claude-3.5-haiku
+#    litellm_params:
+#      model: openrouter/anthropic/claude-3.5-haiku
+#      api_key: os.environ/OPENROUTER_API_KEY
+#      api_base: https://openrouter.ai/api/v1
+""").render(database_url=database_url)
 
     @property
     def litellm_master_key(self) -> str:
@@ -466,17 +480,20 @@ def main():
         prog="ccm",
         description="A companion tool for Claude Code, enabling flexible LLM integration through LiteLLM proxy.",
         formatter_class=argparse.RawDescriptionHelpFormatter,
-        epilog="""
+        epilog=Template("""
 Examples:
   ccm start
   ccm stop
-  ccm restart  
+  ccm restart
   ccm status
   ccm logs
-  ccm logs --follow --lines 100
+  ccm logs -f -n 100
+  {%- if has_ui %}
+  ccm ui
+  {%- endif %}
 
 This tool manages a LiteLLM proxy running with: litellm --config ~/.claude-code-mate/config.yaml
-        """,
+""").render(has_ui=Postgres.has_ui()),
     )
 
     # Create subparsers
@@ -529,10 +546,21 @@ This tool manages a LiteLLM proxy running with: litellm --config ~/.claude-code-
         help="Number of log lines to show (default: 50)",
     )
 
+    if Postgres.has_ui():
+        # UI command
+        ui_parser = subparsers.add_parser(
+            "ui",
+            help="Open LiteLLM UI in browser",
+            description="Open the LiteLLM web UI at http://0.0.0.0:4000/ui in your default browser.",
+        )
+
     args = parser.parse_args()
 
+    # Initialize database and get the connection URL
+    database_url = Postgres.initialize()
+
     # Initialize config file if it doesn't exist
-    config_manager = ConfigManager()
+    config_manager = ConfigManager(database_url=database_url)
     if not config_manager.initialize():
         sys.exit(1)
 
@@ -557,6 +585,15 @@ This tool manages a LiteLLM proxy running with: litellm --config ~/.claude-code-
 
     elif args.command == "logs":
         service.logs(follow=args.follow, lines=args.lines)
+
+    elif args.command == "ui":
+        ui_url = "http://0.0.0.0:4000/ui"
+        print(f"🌐 Opening LiteLLM UI: {ui_url}")
+        try:
+            webbrowser.open(ui_url)
+        except Exception as e:
+            print(f"❌ Failed to open browser: {e}")
+            print(f"💡 Please manually open: {ui_url}")
 
 
 if __name__ == "__main__":

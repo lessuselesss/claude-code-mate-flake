@@ -11,10 +11,20 @@ The code (as well as the README) of Claude Code Mate is mainly vibe coded by Cla
 
 ```bash
 # Install with uv
-uv pip install claude-code-mate
+uv pip install --system claude-code-mate
 
 # Or with pip
 pip install claude-code-mate
+```
+
+Or with Admin UI enabled (only support Python 3.9-3.12 for now):
+
+```bash
+# Install with uv
+uv pip install --system --python 3.12 "claude-code-mate[ui]"
+
+# Or with pip
+pip install "claude-code-mate[ui]"
 ```
 
 
@@ -96,6 +106,26 @@ ccm restart
 ```
 
 Note that you need to update the environment variables if `master_key` is changed.
+
+
+## Admin UI
+
+If you installed Claude Code Mate with Admin UI enabled, you can access the UI for model management and usage tracking:
+
+```bash
+ccm ui
+```
+
+> [!NOTE]
+> The default username and password are `admin` and `sk-1234567890` (i.e., the `master_key`) respectively.
+
+### Model Management
+
+![Add Model](./assets/litellm-model-management.png)
+
+### Usage Tracking
+
+![Usage Tracking](./assets/litellm-usage-tracking.png)
 
 
 ## Resources

@@ -8,9 +8,15 @@ authors = [
 ]
 requires-python = ">=3.8"
 dependencies = [
-    "litellm[proxy]>=1.0.0",
+    "litellm[proxy]>=1.77.1",
     "psutil>=5.9.0",
     "PyYAML>=6.0",
+]
+
+[project.optional-dependencies]
+ui = [
+    "pgserver>=0.1.4",
+    "prisma>=0.15.0",
 ]
 
 [project.scripts]
