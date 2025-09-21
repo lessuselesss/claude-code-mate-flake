@@ -389,8 +389,9 @@ general_settings:
   store_model_in_db: true
   {%- endif %}
 
-# Uncomment the following section to configure models if you like config-based
-# model management, or go to the Admin UI for database-based model management.
+{% if database_url -%}
+# Uncomment the following section to configure models if you like YAML-based
+# model management, or go to the Admin UI for UI-based model management.
 #model_list:
 #  # OpenRouter Example
 #  #
@@ -402,6 +403,19 @@ general_settings:
 #      model: openrouter/anthropic/claude-3.5-haiku
 #      api_key: os.environ/OPENROUTER_API_KEY
 #      api_base: https://openrouter.ai/api/v1
+{% else -%}
+model_list:
+  # OpenRouter Example
+  #
+  # For details, see:
+  # - https://docs.litellm.ai/docs/tutorials/claude_responses_api
+  # - https://docs.litellm.ai/docs/providers
+  - model_name: claude-3.5-haiku
+    litellm_params:
+      model: openrouter/anthropic/claude-3.5-haiku
+      api_key: os.environ/OPENROUTER_API_KEY
+      api_base: https://openrouter.ai/api/v1
+{%- endif %}
 """).render(database_url=database_url)
 
     @property

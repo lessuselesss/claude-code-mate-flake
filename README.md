@@ -85,10 +85,12 @@ claude --model claude-3.5-haiku
 
 ## Configuration
 
+### UI disabled (YAML-based)
+
 Default config (at `~/.claude-code-mate/config.yaml`):
 
 ```yaml
-litellm_settings:
+general_settings:
   master_key: sk-1234567890
 
 model_list:
@@ -106,6 +108,13 @@ ccm restart
 ```
 
 Note that you need to update the environment variables if `master_key` is changed.
+
+### UI enabled (UI-based)
+
+If you find it cumbersome to manually edit the config file, you can use the [Admin UI](#admin-ui).
+
+> [!NOTE]
+> The models configured in `~/.claude-code-mate/config.yaml` are static, their settings can not be modified via the UI. For better experience, it's recommended to configure all models via the UI if you like to use the UI.
 
 
 ## Admin UI
@@ -126,6 +135,8 @@ ccm ui
 ### Usage Tracking
 
 ![Usage Tracking](./assets/litellm-usage-tracking.png)
+
+For more details, please check out [LiteLLM Proxy - Admin UI](https://docs.litellm.ai/docs/proxy/ui).
 
 
 ## Resources
