@@ -114,7 +114,7 @@ Note that you need to update the environment variables if `master_key` is change
 If you find it cumbersome to manually edit the config file, you can use the [Admin UI](#admin-ui).
 
 > [!NOTE]
-> The models configured in `~/.claude-code-mate/config.yaml` are static, their settings can not be modified via the UI. For better experience, it's recommended to configure all models via the UI if you like to use the UI.
+> The models configured in `~/.claude-code-mate/config.yaml` are considered static in the UI: they cannot be edited or deleted via the UI. For better experience, it's recommended to configure all models via the UI if you like to use the UI.
 
 
 ## Admin UI
