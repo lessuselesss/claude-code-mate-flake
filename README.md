@@ -4,13 +4,15 @@ A companion tool for Claude Code, enabling flexible LLM integration through Lite
 
 The code (as well as the README) of Claude Code Mate is mainly vibe coded by Claude Code, with some adjustments and enhancements made by the author. 🤖✨
 
-中文博客：[轻松解锁Claude Code：国内用户的多元模型新玩法](https://russellluo.com/2025/08/easily-unlock-claude-code)。
+中文博客：
+- [轻松解锁Claude Code：国内用户的多元模型新玩法](https://russellluo.com/2025/08/easily-unlock-claude-code)
+- [Claude Code伴侣：可视化管理新体验](https://russellluo.com/2025/09/claude-code-mate-ui)
 
 
 ## Installation
 
 ```bash
-# Install with uv
+# Install with uv (recommended)
 uv pip install --system claude-code-mate
 
 # Or with pip
@@ -20,7 +22,7 @@ pip install claude-code-mate
 Or with Admin UI enabled (only support Python 3.9-3.12 for now):
 
 ```bash
-# Install with uv
+# Install with uv (recommended)
 uv pip install --system --python 3.12 "claude-code-mate[ui]"
 
 # Or with pip
@@ -114,7 +116,9 @@ Note that you need to update the environment variables if `master_key` is change
 If you find it cumbersome to manually edit the config file, you can use the [Admin UI](#admin-ui).
 
 > [!NOTE]
-> The models configured in `~/.claude-code-mate/config.yaml` are considered static in the UI: they cannot be edited or deleted via the UI. For better experience, it's recommended to configure all models via the UI if you like to use the UI.
+> The models configured in `~/.claude-code-mate/config.yaml` are considered static in the UI: they cannot be edited or deleted via the UI.
+>
+> For better experience, it's recommended to configure all models via the UI if you like to use the UI.
 
 
 ## Admin UI
@@ -130,13 +134,13 @@ ccm ui
 
 ### Model Management
 
-![Add Model](./assets/litellm-model-management.png)
+![Add Model](./assets/litellm-admin-ui-models.png)
 
 ### Usage Tracking
 
-![Usage Tracking](./assets/litellm-usage-tracking.png)
+![Usage Tracking](./assets/litellm-admin-ui-usage.png)
 
-For more details, please check out [LiteLLM Proxy - Admin UI](https://docs.litellm.ai/docs/proxy/ui).
+For more details, please check out the [Admin UI Documentation](https://docs.litellm.ai/docs/proxy/ui).
 
 
 ## Resources
